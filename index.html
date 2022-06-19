@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JSMpeg Stream Client</title>
+    <style type="text/css">
+      html,
+      body {
+        background-color: #111;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas style="height: 100%; width: 100%" id="video-canvas"></canvas>
+    <script type="text/javascript" src="jsmpeg.min.js"></script>
+    <script type="text/javascript">
+      var canvas = document.getElementById("video-canvas");
+      let uxr = window.location.href;
+      uxr = uxr.split("url=");
+      var url = uxr[1];
+      var player = new JSMpeg.Player(url, { canvas: canvas, autoplay: true });
+    </script>
+  </body>
+</html>
