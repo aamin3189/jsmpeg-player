@@ -68,6 +68,11 @@ class VideoStream extends VideoRTC {
     this.video.controls = false;
     this.video.setAttribute('controls', 'false');
     this.video.style.pointerEvents = 'none';
+
+    // Programmatically play the video
+    this.video.autoplay = true;
+    this.video.muted = true;
+    this.video.play();
   }
 
   onconnect() {
