@@ -14,17 +14,13 @@ class VideoStream extends VideoRTC {
     // Ensure playerId and wsURL are properly set
     this.playerId = this.id;
     this.wsURL = this.getAttribute('src');
-    console.log(
-      'connectedCallback',
-      `player${this.playerId}`,
-      this.wsURL
-    );
+    console.log('connectedCallback', `player${this.playerId}`, this.wsURL);
     this.oninit();
   }
 
   set divMode(value) {
     var event = new CustomEvent('video-mode-go2rtc', {
-      detail: { elementId: this.playerId, mode: value },
+      detail: {elementId: this.playerId, mode: value},
     });
     document.dispatchEvent(event);
     this.querySelector('.mode').innerText = value;
@@ -89,16 +85,14 @@ class VideoStream extends VideoRTC {
     console.debug('stream.onopen');
     const result = super.onopen();
 
-    this.onmessage['stream'] = (msg) => {
+    this.onmessage['stream'] = msg => {
       switch (msg.type) {
         case 'error':
           this.divError = msg.value;
           let details = null;
           if (
             msg.value &&
-            msg.value.indexOf(
-              'webrtc/offer: streams: codecs not matched'
-            ) >= 0
+            msg.value.indexOf('webrtc/offer: streams: codecs not matched') >= 0
           ) {
             details = {
               msg: msg.value,
@@ -152,10 +146,7 @@ class VideoStream extends VideoRTC {
       this.streamCountArray.push(this.streamDataCount);
       let max = 5;
       if (this.streamCountArray && this.streamCountArray.length) {
-        max = this.streamCountArray.reduce(
-          (a, b) => Math.max(a, b),
-          -Infinity
-        );
+        max = this.streamCountArray.reduce((a, b) => Math.max(a, b), -Infinity);
       }
 
       const low = max / 4;
