@@ -1,3 +1,9 @@
+// Assuming VideoRTC is already loaded and available globally
+
+/**
+ * This is example, how you can extend VideoRTC player for your app.
+ * Also you can check this example: https://github.com/AlexxIT/WebRTC
+ */
 class VideoStream extends VideoRTC {
   constructor() {
     super();
@@ -5,9 +11,14 @@ class VideoStream extends VideoRTC {
 
   connectedCallback() {
     super.connectedCallback();
+    // Ensure playerId and wsURL are properly set
     this.playerId = this.id;
     this.wsURL = this.getAttribute('src');
-    console.log('connectedCallback', `player${this.playerId}`, this.wsURL);
+    console.log(
+      'connectedCallback',
+      `player${this.playerId}`,
+      this.wsURL
+    );
     this.oninit();
   }
 
@@ -26,53 +37,42 @@ class VideoStream extends VideoRTC {
     this.querySelector('.mode').innerText = 'error';
   }
 
+  /**
+   * Custom GUI
+   */
   oninit() {
     console.debug('stream.oninit');
     super.oninit();
     this.streamCountArray = [];
     this.streamStrengthStatus = 'no';
     this.innerHTML = `
-      <style>
-      video-stream {
-        position: relative;
-      }
-      .info {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 12px;
-        color: white;
-        display: flex;
-        justify-content: space-between;
-        pointer-events: none;
-      }
-      video {
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-      }
-      </style>
-      <div class="info">
-        <div class="status"></div>
-        <div class="mode"></div>
-      </div>
-    `;
+          <style>
+          video-stream {
+              position: relative;
+          }
+          .info {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              padding: 12px;
+              color: white;
+              display: flex;
+              justify-content: space-between;
+              pointer-events: none;
+          }
+          </style>
+          <div class="info">
+              <div class="status"></div>
+              <div class="mode"></div>
+          </div>
+          `;
+
     this.streamCountCalcSeconds = 1;
     this.streamCountStartTime = new Date().getTime();
     this.streamDataCount = 0;
     const info = this.querySelector('.info');
     this.insertBefore(this.video, info);
-
-    // Hide video controls
-    this.video.controls = false;
-    this.video.setAttribute('controls', 'false');
-    this.video.style.pointerEvents = 'none';
-
-    // Programmatically play the video
-    this.video.autoplay = true;
-    this.video.muted = true;
-    this.video.play();
   }
 
   onconnect() {
@@ -88,12 +88,18 @@ class VideoStream extends VideoRTC {
   onopen() {
     console.debug('stream.onopen');
     const result = super.onopen();
+
     this.onmessage['stream'] = (msg) => {
       switch (msg.type) {
         case 'error':
           this.divError = msg.value;
           let details = null;
-          if (msg.value && msg.value.indexOf('webrtc/offer: streams: codecs not matched') >= 0) {
+          if (
+            msg.value &&
+            msg.value.indexOf(
+              'webrtc/offer: streams: codecs not matched'
+            ) >= 0
+          ) {
             details = {
               msg: msg.value,
               wsURL: this.wsURL,
@@ -102,7 +108,9 @@ class VideoStream extends VideoRTC {
               errorSourceId: 1000,
             };
             console.log('mse : =============', msg.value);
-            var event = new CustomEvent('video-error-go2rtc', { detail: details });
+            var event = new CustomEvent('video-error-go2rtc', {
+              detail: details,
+            });
             document.dispatchEvent(event);
           } else {
             details = {
@@ -112,7 +120,9 @@ class VideoStream extends VideoRTC {
               tryWith: 'next',
               errorSourceId: msg.errorSourceId,
             };
-            var event = new CustomEvent('video-error-go2rtc', { detail: details });
+            var event = new CustomEvent('video-error-go2rtc', {
+              detail: details,
+            });
             document.dispatchEvent(event);
           }
           break;
@@ -127,12 +137,14 @@ class VideoStream extends VideoRTC {
           break;
       }
     };
+
     return result;
   }
 
   doCount() {
     const now = new Date().getTime();
-    const timeEnd = this.streamCountStartTime + this.streamCountCalcSeconds * 1000;
+    const timeEnd =
+      this.streamCountStartTime + this.streamCountCalcSeconds * 1000;
     if (now < timeEnd) {
       this.streamDataCount++;
     } else {
@@ -140,7 +152,10 @@ class VideoStream extends VideoRTC {
       this.streamCountArray.push(this.streamDataCount);
       let max = 5;
       if (this.streamCountArray && this.streamCountArray.length) {
-        max = this.streamCountArray.reduce((a, b) => Math.max(a, b), -Infinity);
+        max = this.streamCountArray.reduce(
+          (a, b) => Math.max(a, b),
+          -Infinity
+        );
       }
 
       const low = max / 4;
@@ -161,7 +176,10 @@ class VideoStream extends VideoRTC {
       if (status !== this.streamStrengthStatus) {
         this.streamStrengthStatus = status;
         var event = new CustomEvent('stream-strength-status', {
-          detail: { msg: status, elementId: this.playerId },
+          detail: {
+            msg: status,
+            elementId: this.playerId,
+          },
         });
         document.dispatchEvent(event);
       }
@@ -177,6 +195,7 @@ class VideoStream extends VideoRTC {
   onpcvideo(ev) {
     console.debug('stream.onpcvideo');
     super.onpcvideo(ev);
+
     if (this.pcState !== WebSocket.CLOSED) {
       this.divMode = 'RTC';
     }
