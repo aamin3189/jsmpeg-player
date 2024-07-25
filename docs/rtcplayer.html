@@ -7,16 +7,13 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Video Stream</title>
-    <script>
+    <!-- <script>
       const video_stream = document.createElement('video-stream');
       video_stream.mode = 'webrtc';
       video_stream.id = '1';
-      
       video_stream.src =
         'wss://meetbeta02.nxgen.cloud:14891/api/ws?src=14bf9137d76c4d25be62c143a9d76b8d_0_1_hevc';
-
-      go2rtcElement.appendChild(video_stream);
-    </script>
+    </script> -->
     <script src="video-rtc.js"></script>
     <script src="video-stream.js"></script>
   </head>
@@ -24,7 +21,7 @@
     <video-stream
       id="1"
       src="wss://meetbeta02.nxgen.cloud:14891/api/ws?src=14bf9137d76c4d25be62c143a9d76b8d_1_1_hevc"
-      mode='webrtc
+      mode="webrtc"
     ></video-stream>
     <!-- <video-stream
       id="2"
