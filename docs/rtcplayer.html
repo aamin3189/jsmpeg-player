@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Video Stream</title>
-  <script src="video-rtc.js"></script>
-  <script src="video-stream.js"></script>
-</head>
-<body>
-  <!-- Ensure the element has an id -->
-  <video-stream id="video-stream"></video-stream>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Stream</title>
+    <script src="video-rtc.js"></script>
+    <script src="video-stream.js"></script>
+  </head>
+  <body>
+    <video-stream
+      id="1"
+      src="wss://meetbeta02.nxgen.cloud:14891/api/ws?src=14bf9137d76c4d25be62c143a9d76b8d_0_1_hevc"
+    ></video-stream>
+  </body>
 </html>
