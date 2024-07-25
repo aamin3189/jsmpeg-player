@@ -16,14 +16,18 @@
 
       const video_stream = document.createElement('video-stream');
       video_stream.mode = 'webrtc';
-      // this.mode = this.go2RTCObj.retryModesWithSequence[this.go2RTCObj.currentModeIndex]; // v.mode  'mse',webrtc
       video_stream.id = '1';
       video_stream.label = sensorID;
       video_stream.src = 'wss://meetbeta02.nxgen.cloud:14891/api/ws?src=14bf9137d76c4d25be62c143a9d76b8d_0_1_hevc';
-      
+
       go2rtcElement.appendChild(video_stream);
-      // Assuming this.videoDomElementDetails.emit is defined somewhere in your code
-      this.videoDomElementDetails.emit({ tag: go2rtcElement, isGo2rtc: true });
+
+      // Check if videoDomElementDetails and emit method are defined
+      if (this.videoDomElementDetails && typeof this.videoDomElementDetails.emit === 'function') {
+        this.videoDomElementDetails.emit({ tag: go2rtcElement, isGo2rtc: true });
+      } else {
+        console.warn('videoDomElementDetails or emit method is not defined');
+      }
     });
   </script>
 </body>
