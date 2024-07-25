@@ -4,8 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video Stream</title>
+    <script>
+      const video_stream: any = document.createElement('video-stream');
+      video_stream.mode = 'webrtc';
+      // this.mode = this.go2RTCObj.retryModesWithSequence[this.go2RTCObj.currentModeIndex]; // v.mode  'mse',webrtc
+      video_stream.id = vId;
+      video_stream.label = sensorID;
+      video_stream.src = new URL(urlObj.url);
+      this.customVideoElement = video_stream;
+      go2rtcElement.appendChild(video_stream);
+      this.videoDomElementDetails.emit({ tag: go2rtcElement, isGo2rtc: true });
+    </script>
     <script src="video-rtc.js"></script>
     <script src="video-stream.js"></script>
+    
   </head>
   <body>
     <video-stream
