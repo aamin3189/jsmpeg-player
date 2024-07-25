@@ -15,12 +15,16 @@ class VideoStream extends VideoRTC {
     this.playerId = this.id;
     this.wsURL = this.getAttribute('src');
     console.log('connectedCallback', `player${this.playerId}`, this.wsURL);
-    this.oninit();
+    if (this.playerId && this.wsURL) {
+      this.oninit();
+    } else {
+      console.error('playerId or wsURL is not set');
+    }
   }
 
   set divMode(value) {
     var event = new CustomEvent('video-mode-go2rtc', {
-      detail: {elementId: this.playerId, mode: value},
+      detail: { elementId: this.playerId, mode: value },
     });
     document.dispatchEvent(event);
     this.querySelector('.mode').innerText = value;
