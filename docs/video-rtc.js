@@ -202,6 +202,7 @@ class VideoRTC extends HTMLElement {
   connectedCallback() {
     this.playerId = this.getAttribute('id');
     this.wsURL = this.getAttribute('src');
+    this.mode = this.getAttribute('mode');
     if (this.disconnectTID) {
       clearTimeout(this.disconnectTID);
       this.disconnectTID = 0;
