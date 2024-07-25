@@ -14,12 +14,12 @@ class VideoStream extends VideoRTC {
     // Ensure playerId and wsURL are properly set
     this.playerId = this.id;
     this.wsURL = this.getAttribute('src');
-    console.log('connectedCallback', `player${this.playerId}`, this.wsURL);
-    if (this.playerId && this.wsURL) {
-      this.oninit();
-    } else {
-      console.error('playerId or wsURL is not set');
-    }
+    console.log(
+      'connectedCallback',
+      `player${this.playerId}`,
+      this.wsURL
+    );
+    this.oninit();
   }
 
   set divMode(value) {
@@ -46,27 +46,27 @@ class VideoStream extends VideoRTC {
     this.streamCountArray = [];
     this.streamStrengthStatus = 'no';
     this.innerHTML = `
-          <style>
-          video-stream {
-              position: relative;
-          }
-          .info {
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              padding: 12px;
-              color: white;
-              display: flex;
-              justify-content: space-between;
-              pointer-events: none;
-          }
-          </style>
-          <div class="info">
-              <div class="status"></div>
-              <div class="mode"></div>
-          </div>
-          `;
+            <style>
+            video-stream {
+                position: relative;
+            }
+            .info {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                padding: 12px;
+                color: white;
+                display: flex;
+                justify-content: space-between;
+                pointer-events: none;
+            }
+            </style>
+            <div class="info">
+                <div class="status"></div>
+                <div class="mode"></div>
+            </div>
+            `;
 
     this.streamCountCalcSeconds = 1;
     this.streamCountStartTime = new Date().getTime();
@@ -89,14 +89,16 @@ class VideoStream extends VideoRTC {
     console.debug('stream.onopen');
     const result = super.onopen();
 
-    this.onmessage['stream'] = msg => {
+    this.onmessage['stream'] = (msg) => {
       switch (msg.type) {
         case 'error':
           this.divError = msg.value;
           let details = null;
           if (
             msg.value &&
-            msg.value.indexOf('webrtc/offer: streams: codecs not matched') >= 0
+            msg.value.indexOf(
+              'webrtc/offer: streams: codecs not matched'
+            ) >= 0
           ) {
             details = {
               msg: msg.value,
@@ -150,7 +152,10 @@ class VideoStream extends VideoRTC {
       this.streamCountArray.push(this.streamDataCount);
       let max = 5;
       if (this.streamCountArray && this.streamCountArray.length) {
-        max = this.streamCountArray.reduce((a, b) => Math.max(a, b), -Infinity);
+        max = this.streamCountArray.reduce(
+          (a, b) => Math.max(a, b),
+          -Infinity
+        );
       }
 
       const low = max / 4;
