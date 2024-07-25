@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Video Stream</title>
-  <script src="video-rtc.js"></script>
-  <script src="video-stream.js"></script>
-</head>
-<body>
-  <div id="go2rtcElement"></div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const sensorID = 'yourSensorID'; // Define your sensorID
-      const go2rtcElement = document.getElementById('go2rtcElement');
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Video Stream</title>
+    <script>
       const video_stream = document.createElement('video-stream');
       video_stream.mode = 'webrtc';
       video_stream.id = '1';
-      video_stream.label = sensorID;
-      video_stream.src = 'wss://meetbeta02.nxgen.cloud:14891/api/ws?src=14bf9137d76c4d25be62c143a9d76b8d_0_1_hevc';
+      
+      video_stream.src =
+        'wss://meetbeta02.nxgen.cloud:14891/api/ws?src=14bf9137d76c4d25be62c143a9d76b8d_0_1_hevc';
 
       go2rtcElement.appendChild(video_stream);
-
-      // Check if videoDomElementDetails and emit method are defined
-      if (this.videoDomElementDetails && typeof this.videoDomElementDetails.emit === 'function') {
-        this.videoDomElementDetails.emit({ tag: go2rtcElement, isGo2rtc: true });
-      } else {
-        console.warn('videoDomElementDetails or emit method is not defined');
-      }
-    });
-  </script>
-</body>
+    </script>
+    <script src="video-rtc.js"></script>
+    <script src="video-stream.js"></script>
+  </head>
+  <body>
+    <video-stream
+      id="1"
+      src="wss://meetbeta02.nxgen.cloud:14891/api/ws?src=14bf9137d76c4d25be62c143a9d76b8d_1_1_hevc"
+    ></video-stream>
+    <!-- <video-stream
+      id="2"
+      src="wss://meetbeta02.nxgen.cloud:14891/api/ws?src=14bf9137d76c4d25be62c143a9d76b8d_6_1_hevc"
+    ></video-stream> -->
+  </body>
 </html>
