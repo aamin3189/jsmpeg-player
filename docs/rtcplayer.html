@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Video Stream</title>
-  <script src="video-rtc.js"></script>
-  <script src="video-stream.js"></script>
-</head>
-<body>
-  <h1 id="stream-id">Stream ID: </h1>
-  <video-stream id="" src="" mode="webrtc"></video-stream>
-  <script>
-    console.log('HTML content loaded');
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Stream</title>
+
+    <script src="video-rtc.js"></script>
+    <script src="video-stream.js"></script>
+  </head>
+  <body>
+    <video-stream id="1" src="" mode="webrtc"></video-stream>
+    <script>
+      function setVideoStreamSource(streamId, streamUrl) {
+        const videoStream = document.getElementById('1');
+        videoStream.src = streamUrl;
+        // Call any necessary initialization functions from video-stream.js
+        // (assuming video-stream.js handles video initialization)
+      }
+    </script>
+  </body>
 </html>
