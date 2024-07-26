@@ -6,28 +6,32 @@
     <title>Video Stream</title>
   </head>
   <body>
-    <video-stream id="1" src="" mode="webrtc"></video-stream>
+    <video-stream id="1" src=""></video-stream>
     <script>
       function getQueryParams() {
         const params = new URLSearchParams(window.location.search);
         return {
           id: params.get('id'),
-          url: params.get('url')
+          url: params.get('url'),
+          mode: params.get('mode')
         };
       }
 
-      function setVideoStreamSource(streamId, streamUrl) {
+      function setVideoStreamSource(streamId, streamUrl, streamMode) {
         const videoStream = document.getElementById('1');
         videoStream.id = streamId;
         videoStream.src = streamUrl;
+        if (streamMode) {
+          videoStream.setAttribute('mode', streamMode);
+        }
         // Call any necessary initialization functions from video-stream.js
         // (assuming video-stream.js handles video initialization)
       }
 
       document.addEventListener('DOMContentLoaded', function() {
-        const { id, url } = getQueryParams();
+        const { id, url, mode } = getQueryParams();
         if (id && url) {
-          setVideoStreamSource(id, url);
+          setVideoStreamSource(id, url, mode);
         }
       });
     </script>
