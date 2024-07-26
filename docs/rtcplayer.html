@@ -4,18 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video Stream</title>
-
-    
   </head>
   <body>
     <video-stream id="1" src="" mode="webrtc"></video-stream>
     <script>
+      function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          id: params.get('id'),
+          url: params.get('url')
+        };
+      }
+
       function setVideoStreamSource(streamId, streamUrl) {
         const videoStream = document.getElementById('1');
+        videoStream.id = streamId;
         videoStream.src = streamUrl;
         // Call any necessary initialization functions from video-stream.js
         // (assuming video-stream.js handles video initialization)
       }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const { id, url } = getQueryParams();
+        if (id && url) {
+          setVideoStreamSource(id, url);
+        }
+      });
     </script>
     <script src="video-rtc.js"></script>
     <script src="video-stream.js"></script>
