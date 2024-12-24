@@ -3,21 +3,30 @@
   <head>
     <title>The JSMpeg Stream Client</title>
     <style type="text/css">
-      *{
-        margin:0;
-        padding:0;
+      * {
+        margin: 0;
+        padding: 0;
         box-sizing: border-box;
         background-color: #000;
         overflow: hidden;
       }
       html,
       body {
-        text-align: center;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      canvas {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
       }
     </style>
   </head>
   <body>
-    <canvas style="height: 100%; width: 100%" id="video-canvas"></canvas>
+    <canvas id="video-canvas"></canvas>
     <script type="text/javascript" src="jsmpeg.min.js"></script>
     <script type="text/javascript">
       var canvas = document.getElementById("video-canvas");
